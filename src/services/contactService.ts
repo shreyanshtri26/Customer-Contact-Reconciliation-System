@@ -2,17 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-interface Contact {
-  id: number;
-  email: string | null;
-  phoneNumber: string | null;
-  linkedId: number | null;
-  linkPrecedence: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
-}
-
 export class ContactService {
   async identifyContact(email?: string, phoneNumber?: string) {
     // Normalize empty strings to null
@@ -34,13 +23,13 @@ export class ContactService {
     }
 
     // Get the oldest primary contact
-    const primaryContact = existingContacts.find((contact: Contact) => contact.linkPrecedence === 'primary');
+    const primaryContact = existingContacts.find(contact => contact.linkPrecedence === 'primary');
     if (!primaryContact) {
       throw new Error('No primary contact found in existing contacts');
     }
 
     // Check if this is an exact match (both email and phone match existing contact)
-    const exactMatch = existingContacts.find((contact: Contact) => 
+    const exactMatch = existingContacts.find(contact => 
       contact.email === normalizedEmail && contact.phoneNumber === normalizedPhone
     );
 
@@ -50,8 +39,8 @@ export class ContactService {
     }
 
     // Check if we need to create a secondary contact
-    const hasNewInfo = (normalizedEmail && !existingContacts.some((c: Contact) => c.email === normalizedEmail)) ||
-                      (normalizedPhone && !existingContacts.some((c: Contact) => c.phoneNumber === normalizedPhone));
+    const hasNewInfo = (normalizedEmail && !existingContacts.some(c => c.email === normalizedEmail)) ||
+                      (normalizedPhone && !existingContacts.some(c => c.phoneNumber === normalizedPhone));
 
     if (hasNewInfo) {
       // Create secondary contact with new information
@@ -59,7 +48,7 @@ export class ContactService {
     }
 
     // Handle multiple primary contacts (chain merging)
-    const otherPrimaries = existingContacts.filter((contact: Contact) => 
+    const otherPrimaries = existingContacts.filter(contact => 
       contact.linkPrecedence === 'primary' && contact.id !== primaryContact.id
     );
 
@@ -112,7 +101,7 @@ export class ContactService {
     });
   }
 
-  private async mergeContactChains(olderPrimary: Contact, newerPrimary: Contact) {
+  private async mergeContactChains(olderPrimary: any, newerPrimary: any) {
     // Update newer primary to secondary
     await prisma.contact.update({
       where: { id: newerPrimary.id },
@@ -129,7 +118,7 @@ export class ContactService {
     });
   }
 
-  private async formatContactResponse(primaryContact: Contact) {
+  private async formatContactResponse(primaryContact: any) {
     if (!primaryContact || !primaryContact.id) {
       throw new Error('Invalid primary contact provided to formatContactResponse');
     }

@@ -30,25 +30,25 @@ class ContactService {
                 return this.formatContactResponse(newContact);
             }
             // Get the oldest primary contact
-            const primaryContact = existingContacts.find((contact) => contact.linkPrecedence === 'primary');
+            const primaryContact = existingContacts.find(contact => contact.linkPrecedence === 'primary');
             if (!primaryContact) {
                 throw new Error('No primary contact found in existing contacts');
             }
             // Check if this is an exact match (both email and phone match existing contact)
-            const exactMatch = existingContacts.find((contact) => contact.email === normalizedEmail && contact.phoneNumber === normalizedPhone);
+            const exactMatch = existingContacts.find(contact => contact.email === normalizedEmail && contact.phoneNumber === normalizedPhone);
             if (exactMatch) {
                 // Exact match found, return existing chain without creating new contact
                 return this.formatContactResponse(primaryContact);
             }
             // Check if we need to create a secondary contact
-            const hasNewInfo = (normalizedEmail && !existingContacts.some((c) => c.email === normalizedEmail)) ||
-                (normalizedPhone && !existingContacts.some((c) => c.phoneNumber === normalizedPhone));
+            const hasNewInfo = (normalizedEmail && !existingContacts.some(c => c.email === normalizedEmail)) ||
+                (normalizedPhone && !existingContacts.some(c => c.phoneNumber === normalizedPhone));
             if (hasNewInfo) {
                 // Create secondary contact with new information
                 yield this.createSecondaryContact(normalizedEmail, normalizedPhone, primaryContact.id);
             }
             // Handle multiple primary contacts (chain merging)
-            const otherPrimaries = existingContacts.filter((contact) => contact.linkPrecedence === 'primary' && contact.id !== primaryContact.id);
+            const otherPrimaries = existingContacts.filter(contact => contact.linkPrecedence === 'primary' && contact.id !== primaryContact.id);
             for (const otherPrimary of otherPrimaries) {
                 yield this.mergeContactChains(primaryContact, otherPrimary);
             }

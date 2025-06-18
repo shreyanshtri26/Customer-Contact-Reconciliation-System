@@ -7,13 +7,12 @@
     "start": "node dist/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
+    "postinstall": "prisma generate && npm run build",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:migrate:deploy": "prisma migrate deploy",
-    "test": "jest",
-    "test:live": "node test-live-api.js"
+    "prisma:migrate": "prisma migrate deploy",
+    "test": "jest"
   },
-  "keywords": ["bitespeed", "identity", "reconciliation", "api", "nodejs", "typescript"],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -31,9 +30,5 @@
   },
   "devDependencies": {
     "prisma": "^6.9.0"
-  },
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=6.0.0"
   }
 }
