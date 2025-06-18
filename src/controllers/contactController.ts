@@ -8,7 +8,7 @@ const contactService = new ContactService();
 // Validation middleware
 const validateIdentifyRequest: ValidationChain[] = [
   body('email').optional().isEmail().withMessage('Invalid email format'),
-  body('phoneNumber').optional().matches(/^\+?[1-9]\d{1,14}$/).withMessage('Invalid phone number format')
+  body('phoneNumber').optional().matches(/^[\+]?[0-9\-\s\(\)]{7,15}$/).withMessage('Invalid phone number format')
 ];
 
 // Validation result handler
@@ -38,10 +38,18 @@ router.post('/identify', [...validateIdentifyRequest, handleValidationErrors], a
     res.json(result);
   } catch (error) {
     console.error('Error in identify endpoint:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while processing your request'
-    });
+    
+    if (error instanceof Error) {
+      res.status(400).json({
+        status: 'error',
+        message: error.message
+      });
+    } else {
+      res.status(500).json({
+        status: 'error',
+        message: 'An error occurred while processing your request'
+      });
+    }
   }
 });
 

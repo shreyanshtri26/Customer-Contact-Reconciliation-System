@@ -31,7 +31,7 @@ npm install
 3. Set up environment variables:
 Create a `.env` file in the root directory with the following variables:
 ```
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/bitespeed"
+DATABASE_URL="postgresql://postgres:Fb@123@localhost:5432/bitespeed"
 PORT=3000
 NODE_ENV=development
 ```
