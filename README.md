@@ -19,7 +19,7 @@ A system to identify and link customer contacts based on email and phone number.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/shreyanshtri26/Customer-Contact-Reconciliation-System.git
 cd customer-contact-reconciliation-system
 ```
 
