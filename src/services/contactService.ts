@@ -59,7 +59,7 @@ export class ContactService {
     return this.formatContactResponse(primaryContact);
   }
 
-  private async findExistingContacts(email: string | null, phoneNumber: string | null) {
+  private async findExistingContacts(email?: string, phoneNumber?: string) {
     const conditions = [];
     
     if (email) {
@@ -80,7 +80,7 @@ export class ContactService {
     });
   }
 
-  private async createPrimaryContact(email: string | null, phoneNumber: string | null) {
+  private async createPrimaryContact(email?: string, phoneNumber?: string) {
     return prisma.contact.create({
       data: {
         email,
@@ -90,7 +90,7 @@ export class ContactService {
     });
   }
 
-  private async createSecondaryContact(email: string | null, phoneNumber: string | null, primaryId: number) {
+  private async createSecondaryContact(email?: string, phoneNumber?: string, primaryId: number) {
     return prisma.contact.create({
       data: {
         email,
