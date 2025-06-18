@@ -8,11 +8,20 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "dist/app.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "dist/app.js"
     }
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "dist/app.js": {
+      "maxDuration": 30
+    }
   }
 } 
