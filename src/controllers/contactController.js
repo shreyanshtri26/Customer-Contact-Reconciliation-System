@@ -17,26 +17,14 @@ const router = (0, express_1.Router)();
 const contactService = new contactService_1.ContactService();
 // Validation middleware
 const validateIdentifyRequest = [
-    (0, express_validator_1.body)('email')
-        .optional()
-        .isEmail()
-        .withMessage('Invalid email format')
-        .normalizeEmail(),
-    (0, express_validator_1.body)('phoneNumber')
-        .optional()
-        .matches(/^[\+]?[0-9\-\s\(\)]{7,15}$/)
-        .withMessage('Invalid phone number format')
-        .customSanitizer((value) => value === null || value === void 0 ? void 0 : value.trim())
+    (0, express_validator_1.body)('email').optional().isEmail().withMessage('Invalid email format'),
+    (0, express_validator_1.body)('phoneNumber').optional().matches(/^[\+]?[0-9\-\s\(\)]{7,15}$/).withMessage('Invalid phone number format')
 ];
 // Validation result handler
 const handleValidationErrors = (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        res.status(400).json({
-            status: 'error',
-            message: 'Validation failed',
-            errors: errors.array()
-        });
+        res.status(400).json({ errors: errors.array() });
         return;
     }
     next();
@@ -45,7 +33,6 @@ const handleValidationErrors = (req, res, next) => {
 router.post('/identify', [...validateIdentifyRequest, handleValidationErrors], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, phoneNumber } = req.body;
-        // Additional validation for empty values
         if (!email && !phoneNumber) {
             res.status(400).json({
                 status: 'error',
