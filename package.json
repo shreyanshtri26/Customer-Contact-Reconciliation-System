@@ -7,9 +7,9 @@
     "start": "node dist/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-    "postinstall": "prisma generate && npm run build",
+    "vercel-build": "prisma generate && tsc",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy",
+    "prisma:migrate": "prisma migrate dev",
     "test": "jest"
   },
   "keywords": [],

@@ -2,6 +2,14 @@
 
 A system to identify and link customer contacts based on email and phone number.
 
+## Live API Endpoint
+
+**Base URL:** `https://customer-contact-reconciliation-system.vercel.app`
+
+**Identify Contact Endpoint:** `POST /api/identify`
+
+**Full URL:** `https://customer-contact-reconciliation-system.vercel.app/api/identify`
+
 ## Features
 
 - Contact identification and linking
@@ -31,7 +39,7 @@ npm install
 3. Set up environment variables:
 Create a `.env` file in the root directory with the following variables:
 ```
-DATABASE_URL="postgresql://postgres:Fb@123@localhost:5432/bitespeed"
+DATABASE_URL="postgresql://bitespeed_user:xdtYDyqgtlTyln149VjoA341J7NNBUzz@dpg-d19bdifgi27c73flbrcg-a.oregon-postgres.render.com/bitespeed_2k3b"
 PORT=3000
 NODE_ENV=development
 ```
@@ -73,6 +81,27 @@ npm run dev
 }
 ```
 
+## Testing the Live API
+
+You can test the live API using curl:
+
+```bash
+# Create new contact
+curl -X POST https://customer-contact-reconciliation-system.vercel.app/api/identify \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "phoneNumber": "1234567890"}'
+
+# Add secondary contact
+curl -X POST https://customer-contact-reconciliation-system.vercel.app/api/identify \
+  -H "Content-Type: application/json" \
+  -d '{"email": "secondary@example.com", "phoneNumber": "1234567890"}'
+
+# Test exact match (should not create duplicate)
+curl -X POST https://customer-contact-reconciliation-system.vercel.app/api/identify \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "phoneNumber": "1234567890"}'
+```
+
 ## Development
 
 - `npm run dev` - Start development server with hot reload
@@ -93,3 +122,14 @@ The system uses a PostgreSQL database with the following schema:
   - createdAt
   - updatedAt
   - deletedAt (Soft delete)
+
+## Technology Stack
+
+- **Runtime:** Node.js with TypeScript
+- **Framework:** Express.js
+- **Database:** PostgreSQL with Prisma ORM
+- **Deployment:** Vercel
+- **Database Hosting:** Render
+- **Security:** Helmet.js for security headers
+- **Validation:** Express-validator
+- **Development:** ts-node-dev for hot reloading

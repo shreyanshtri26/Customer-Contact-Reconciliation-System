@@ -14,15 +14,6 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Health check endpoint
-app.get('/', (req, res) => {
-  res.json({
-    status: 'ok',
-    message: 'Bitespeed Identity Reconciliation System is running',
-    timestamp: new Date().toISOString()
-  });
-});
-
 // Routes
 app.use('/api', contactRouter);
 

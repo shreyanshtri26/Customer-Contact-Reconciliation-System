@@ -15,14 +15,6 @@ const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-// Health check endpoint
-app.get('/', (req, res) => {
-    res.json({
-        status: 'ok',
-        message: 'Bitespeed Identity Reconciliation System is running',
-        timestamp: new Date().toISOString()
-    });
-});
 // Routes
 app.use('/api', contactController_1.contactRouter);
 // Error handling middleware
