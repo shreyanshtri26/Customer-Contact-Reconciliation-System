@@ -9,9 +9,11 @@
     "build": "tsc",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "test": "jest"
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "test": "jest",
+    "test:live": "node test-live-api.js"
   },
-  "keywords": [],
+  "keywords": ["bitespeed", "identity", "reconciliation", "api", "nodejs", "typescript"],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -29,5 +31,9 @@
   },
   "devDependencies": {
     "prisma": "^6.9.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   }
 }
